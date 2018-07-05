@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>It&#39;s dangerous to go without Typesafety, take this, Reason</title>
+  <!-- <link rel="stylesheet" href="styles/prism.css"> -->
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+  <link rel="stylesheet" type="text/css" href="build/build.css">
+</head>
+<body>
+<article class="deck">
+  <section>
+    <h1 class="title-wrapper">
+      <span>
+        It&#39;s dangerous to go without Typesafety, take this
+        <img class="title-logo" src="images/1.reasonlogo1.svg" ></img>
+      </span>
+    </h1>
+    <div class="title-container">
+      <img class="circ-img" src="images/1.meAvatar.jpg">
+      <div class="parent-img-navi">
+        <img class="rec-img" src="images/1.navi.png">
+        <img class="reason-img" src="images/1.reasonlogo.jpg">
+      </div>
+    <h3 class="title-twitter">@defuex</h3>
+    </div>
+  </section>
+
+  <section>
+    <h2>General</h2>
+    <ul class="build"> <!-- build-items -->
+      <li>New programming language or just syntactic sugar?
+        <ul>
+          <li>Based on OCaml</li>
+        </ul>
+      </li>
+      <li>Integrated typesystem</li>
+      <li>Different language styles
+        <ul>
+            <li>Mostly Functional</li>
+            <li>Imperative</li>
+            <li>Object Oriented</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <img class="ecosystem" src="images/3.ecosystem.png" />
+    <cite>- from Dr.Axel Rauschmayer's book "Exploring ReasonML
+and functional programming"</cite>
+  </section>
+
+  <section>
+    <h2>Other Static Type Systems</h2>
+    <ul class="build">
+      <li>TypeScript
+        <ul>
+          <li>Static Type System</li>
+          <li>Written Superset of JavaScript that compiles to JavaScript</li>
+          <li>Not sound, No pattern matching</li>
+          <li>Large apps take time to be compiled by Typescript</li>
+        </ul>
+      </li>
+      <li>Flow
+        <ul>
+          <li>Targets the same issues</li>
+          <li>A JavaScript preprocessor</li>
+          <li>Written in Ocaml</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Reason (OCaml) Type System</h2>
+    <ul class="build">
+      <li>Strongly typed</li>
+      <li>ML-like sound type system</li>
+      <li>Pattern matching included</li>
+      <li>No Runtime Type Errors (after type checking)</li>
+        <ul>
+          <li>e.g.: undefined is not a function</li>
+          <li>In pure Reason there is no null (no null pointer exceptions)</li>
+        </ul>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Focus of Reason</h2>
+    <ul class="build">
+      <li>Familiar syntax for JavaScript developers</li>
+      <li>Interoperability with JavaScript through BuckleScript</li>
+      <li>Tooling &amp; Good developer experience (better error messages)</li>
+      <li>React (built-in syntax etc.)</li>
+      <li>Better standard library (Belt = work in progress)</li>
+      <li>npm based workflow</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Semantics and Language Features</h2>
+  </section>
+
+  <section>
+    <h2>Types</h2>
+    <p>Definition:</p>
+    <code class="language-javascript">let goal = 10;</code>
+    <br><p>Explicitly written type:</p>
+    <code class="language-javascript">let goal: int = 10;</code>
+  </section>
+
+  <section>
+    <h2>Types</h2>
+    <p>Wrapping expression and types:</p>
+    <code class="language-javascript">let myInt = (5: int) + (4: int);</code>
+    <br><p>Function declaration with parameters and their types:</p>
+    <code class="language-javascript">let add = (x: int, y: int) : int => x + y;</code>
+    <br><p>It's also possible to use a different name for a type:</p>
+    <code class="language-javascript">type scoreType = int;
+let x: scoreType = 10;</code>
+  </section>
+
+  <section>
+    <h2>Record</h2>
+    <ul class="build">
+      <li>like JavaScript Objects</li>
+      <li>defined by keyword <tt>type</tt></li>
+      <li>but lighter, immutable (default), very fast</li>
+      <li>needs explicit declarations</li>
+      <li>... spread operator can be used to create new immutable records</li>
+      <li>fields can be defined with keyword <tt>mutable</tt></li>
+      <li>Record Types are found by field</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Record</h2>
+    <p>Definition:</p>
+    <pre><code class="language-javascript">type person = {age: int, name: string};
+let me: person = {age: 30, name: Tim};</code></pre>
+    </code>
+    <br><p>New record created from old record:</p>
+    <code class="language-javascript">let meNextYear = {...me, age: me.age + 1};</code>
+    <br><p>Make field of record mutable:</p>
+    <code class="language-javascript">type person = {age: int, mutable name: string};</code>
+  </section>
+
+  <section>
+    <h2>Variant</h2>
+    <ul class="build ">
+      <li>data structure (enum on steroids)</li>
+      <li>Normally only seen in languages with functional paradigms</li>
+      <li>"this or that" clause</li>
+      <li>A Variant can carry values (constructor arguments)</li>
+      <!-- <li>Constructors can have type arguments</li> -->
+      <li>Reason does not have null (has <tt>option</tt> variant instead)</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Variant</h2>
+    <p>Definition:</p>
+    <pre><code class="language-javascript">type myResponseVariant =
+  | Yes
+  | No
+  | PrettyMuch;
+
+let areYouCrushingIt = Yes;</code></pre>
+  </section>
+
+  <section>
+    <h2>Constructor Arguments &amp; Pattern Matching</h2>
+    <p>Let's take following example to explain pattern matching</p>
+    <pre><code class="language-javascript">type payload =
+  | BadResult(int)
+  | GoodResult(string)
+  | NoResult;</code></pre>
+  </section>
+
+  <section>
+    <h2>Constructor Arguments &amp; Pattern Matching</h2>
+    <pre><code class="language-javascript">
+let data = GoodResult("Product shipped!");
+</code></pre>
+  </section>
+
+  <section>
+    <h2>Constructor Arguments &amp; Pattern Matching</h2>
+    <pre><code class="language-javascript">
+let data = GoodResult("Product shipped!");
+
+let message =
+  switch (data) {
+  | GoodResult(theMessage) => "Success! " ++ theMessage
+  | BadResult(errorCode) => "Something's wrong.
+  The error code is: " ++ string_of_int(errorCode)
+  };</code></pre>
+  </section>
+
+  <section>
+    <h2>Constructor Arguments &amp; Pattern Matching</h2>
+    <pre><code>Warning 8: this pattern-matching is not exhaustive.
+Here is an example of a value that is not matched:
+NoResult</code></pre>
+  </section>
+
+  <section>
+    <h2>Functions</h2>
+    <ul class="build">
+      <li>Declared with arrow</li>
+      <!-- <li>For no passed arguments we use a Unit ()</li> -->
+      <li>Labeled Arguments (no extra creation of objects)</li>
+      <li>Optional Labeled Arguments (default value possible)</li>
+      <li>Currying</li>
+  
+    </ul>
+  </section>
+  
+  <section>
+    <h2>Functions</h2>
+    <p>Definition:</p>
+    <code class="language-javascript">let greet = (name) => "Hello " ++ name;</code>
+    <br><p>or</p>
+    <pre><code class="language-javascript">let greetMore = (name) => {
+  let part1 = "Hello";
+  part1 ++ " " ++ name
+};</code></pre>
+  </section>
+
+  <section>
+    <h2>Functions</h2>
+    <p>Labeled Arguments:</p>
+    <pre><code class="language-javascript">let addCoordinates = (~x, ~y) => {
+  /* use x and y here */
+};
+addCoordinates(~x=5, ~y=6);</code></pre>
+    <br><p>Different argument name:</p>
+    <pre><code class="language-javascript">let drawCircle = (~radius as r, ~color as c) => {
+  setColor(c);
+  startAt(r, r);
+};</code></pre>
+  </section>
+
+  <section>
+    <h2>Functions</h2>
+    <p>Optional Labeled Arguments:</p>
+    <pre><code class="language-javascript">let drawCircle = (~color, ~radius=?, ()) => {
+  setColor(color);
+  switch (radius) {
+  | None => startAt(1, 1)
+  | Some(r_) => startAt(r_, r_)
+  }
+};</code></pre>
+  </section>
+
+  <section>
+    <h2>Functions</h2>
+    <p>Currying:</p>
+    <code class="language-javascript">
+      let add = (x, y) => x + y;
+
+      /* Semantically the same as following definition */
+      let add = (x) => (y) => x + y;</code>
+  </section>
+
+  <section>
+    <h2>ReasonReact</h2>
+    <ul>
+      <li>
+        Safe and statically typed
+          <ul>
+            <li>DOM is abstracted</li>
+            <li>not worrying about DOM types</li>
+          </ul>
+      </li>
+      <li>Reason code compiles to idiomatic ReactJS</li>
+      <li>Stable for production</li>
+      <li>Used by facebook messenger</li>
+    </ul>
+  </section>
+  
+  <section>
+    <h2>Why Reason?</h2>
+     <ul class="build ">
+      <li>Fast build system</li>
+      <li>OCaml semantics</li>
+      <li>Great ecosystem
+        <ul>
+          <li>BuckleScript</li>
+        </ul>
+      </li>
+      <li>Compiling to different platforms</li>
+      <li>Syntax similar to JavaScript</li>
+      <li>Reason syntax accepts JSX
+        <ul>
+          <li>ReasonReact</li>
+        </ul>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h1>Code Demo</h1>
+  </section>
+  
+  <section>
+    <h2>Getting Started</h2>
+    <ul class="build">
+      <li>Install BuckleScript build system</li>
+      <code class="language-javascript">npm install -g bs-platform</code>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Getting Started</h2>
+      <p>Use a project template</p>
+        <ul class="build"><p>Use a project template</p>
+          <li>Pure Reason Project (without ReasonReact)</li>
+            <code class="language-javascript">bsb -init my-first-app -theme basic-reason</code>
+          <br><br><li>Minimal ReasonReact Project Setup</li>
+            <code class="language-javascript">bsb -init my-react-app -theme react</code></pre>
+          <br><br><li>More configured ReasonReact Setup</li>
+            <pre><code class="language-javascript">yarn create react-app *app-name* 
+-- --scripts-version reason-scripts</code></pre>
+        </ul>
+      </li>
+  </section>
+
+  <section>
+    <h2>Just the beginning…</h2>
+    <table>
+      <tbody>
+        <tr>
+          <!-- <td>
+            <p class="link-left">https://reasonml.github.io/en/</p>
+            <p class="link-left">https://bucklescript.github.io/</p>
+          </td> -->
+          <td><img width="200" height="300px" src="images/4.LunkModified.jpg" /></td>
+          <!-- <td>
+            <p class="link-right">https://reasonml.github.io/reason-react/</p>
+          </td> -->
+        </tr>
+      </tbody>
+    </table>
+    <p class="link-bottom">https://reasonml.github.io/en/</p>
+    <p class="link-bottom">https://bucklescript.github.io/</p>
+    <p class="link-bottom">https://reasonml.github.io/reason-react/</p>
+    <p><strong>Thanks! :) </strong><a href="https://twitter.com/defuex">@defuex</a></p>
+  </section>
+
+  <section>
+    <h2>Join us in Vienna</h2>
+    <table>
+      <tbody>
+        <tr>
+          <td><img class="logo-img" src="images/react-vienna.jpg"></td>
+          <td><img class="logo-img" src="images/reason-vienna.jpg"></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <div class="bespoke-progress-parent">
+    <div class="bespoke-progress-bar">
+    </div>
+  </div>
+</article>
+
+<script src="build/build.js"></script>
+<script src="../node_modules/bespoke-prism/dist/bespoke-prism.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<!-- <script src="/src/scripts/prism.js"></script> -->
+
+</body>
+</html>
